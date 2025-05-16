@@ -37,9 +37,16 @@ public class PropertySerializer : SerializerBase
         var sf = GetService<ISerializerFactory>();
 
         var result = new StringBuilder();
-        foreach (var v in prop.Values.Where(value => value != null))
+        if (prop.Name == "CATEGORIES")
         {
-            SerializeValue(result, prop, v!, sf);
+            SerializeValue(result, prop, prop.Values, sf);
+        }
+        else
+        {
+            foreach (var v in prop.Values.Where(value => value != null))
+            {
+                SerializeValue(result, prop, v!, sf);
+            }
         }
 
         // Pop the object off the serialization context.
