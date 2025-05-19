@@ -238,17 +238,20 @@ public class SymmetricSerializationTests
         yield return new TestCaseData("\\\\uncPath\\to\\resource.txt", new Uri("\\\\uncPath\\to\\resource.txt")).SetName("UNC path URL");
     }
 
-    [Test, Ignore("TODO: Fix CATEGORIES multiple serializations")]
+    [Test]
     public void CategoriesTest()
     {
         var vEvent = GetSimpleEvent();
-        vEvent.Categories = new List<string> { "Foo", "Bar", "Baz" };
+        vEvent.Categories = ["Foo", "Bar", "Baz"];
         var c = new Calendar();
         c.Events.Add(vEvent);
 
         var serialized = SerializeToString(c);
         var categoriesCount = Regex.Matches(serialized, "CATEGORIES").Count;
         Assert.That(categoriesCount, Is.EqualTo(1));
+
+        var captures = Regex.Matches(serialized, "/CATEGORIES:(.*),(.*),(.*)/gm");
+
 
         var deserialized = UnserializeCalendar(serialized);
         Assert.That(deserialized, Is.EqualTo(c));
