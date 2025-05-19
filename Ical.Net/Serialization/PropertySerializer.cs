@@ -36,7 +36,6 @@ public class PropertySerializer : SerializerBase
         // the property and parameter values
         var sf = GetService<ISerializerFactory>();
 
-        // TODO: Exhaust this list with all properties which can be displayed in one line.
         var stringBuilder = prop.Name switch
         {
             "CATEGORIES" or "RESOURCES" => ToOneLine(prop, sf),
